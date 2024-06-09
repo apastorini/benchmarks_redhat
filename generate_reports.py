@@ -15,7 +15,7 @@ def render_html(template_path, output_path, context):
     env = Environment(loader=FileSystemLoader(template_path))
     template = env.get_template('report_template.html')
     html_content = template.render(context)
-    with open(output_path, 'w') as f:
+    with open(output_path, 'w', encoding='utf-8') as f:
         f.write(html_content)
 
 
