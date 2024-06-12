@@ -46,12 +46,14 @@ def extract_values_and_rules(file_path):
 
     return data
 
-def save_to_csv(data, filename='values_rules_groups_profiles.csv'):
+
+def save_to_csv(data, filename='profile_values_rules.csv'):
     df = pd.DataFrame(data)
     df.to_csv(filename, index=False, sep=';')
+
 
 if __name__ == '__main__':
     file_path = '../data/CIS_Red_Hat_Enterprise_Linux_8_Benchmark_v1.0.1-xccdf.xml'
     data = extract_values_and_rules(file_path)
     save_to_csv(data)
-    print(f"Values, rules, groups, and profiles saved to values_rules_groups_profiles.csv")
+    print(f"Rules, groups, and profiles saved to profile_values_rules.csv")

@@ -1,6 +1,7 @@
 import os
 import importlib
-from classes import ComplianceCheck
+
+from classes.compliance_check import ComplianceCheck
 
 
 def main():
