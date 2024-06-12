@@ -1,6 +1,6 @@
 import pandas as pd
 from jinja2 import Environment, FileSystemLoader
-from benchmark_checks import (
+from parser.old.generate_benchmark_rules import (
     check_cramfs_disabled, check_squashfs_disabled, check_udf_disabled,
     check_tmp_configured, check_nodev_on_tmp, dynamic_check, check_service_running
 )

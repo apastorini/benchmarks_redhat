@@ -16,7 +16,7 @@ To obtain the latest version of this guide, please visit       <xhtml:a href="ht
 	By using the Products and/or the Recommendations, I and/or my organization ("We") agree and acknowledge that:
 	1.	No network, system, device, hardware, software, or component can be made fully secure;
 	2.	We are using the Products and the Recommendations solely at our own risk;
-	3.	We are not compensating CIS to assume any liabilities associated with our use of the Products or the Recommendations, even risks that result from 		CIS's negligence or failure to perform; 
+	3.	We are not compensating CIS to assume any liabilities associated with our use of the Products or the Recommendations, even risks that result from 		CIS's negligence or failure to perform;
 	4.	We have the sole responsibility to evaluate the risks and benefits of the Products and Recommendations to us and to adapt the Products and the 			Recommendations to our particular circumstances and requirements;
 	5.	Neither CIS, nor any CIS Party (defined below) has any responsibility to make any corrections, updates, upgrades, or bug fixes; or to notify us of 		the need for any such corrections, updates, upgrades, or bug fixes; and
 	6.	Neither CIS nor any CIS Party has or will have any liability to us whatsoever (whether based in contract, tort, strict liability or otherwise) for 		any direct, indirect, incidental, consequential, or special damages (including without limitation loss of profits, loss of sales, loss of or damage 		to reputation,loss of customers, loss of software, data, information or emails, loss of privacy, loss of use of any computer or other equipment, 	business interruption, wasted management or other staff resources or claims of any kind against us from third parties) arising out of or in any way 	Connected with our use of or our inability to use any of the Products or Recommendations (even if CIS has been advised of the possibility of such 	damages), including without limitation any liability associated with infringement of intellectual property, defects, bugs, errors, omissions, 	viruses, worms, backdoors, Trojan horses or other harmful items.
@@ -4561,7 +4561,7 @@ This automatically limits the damage that the software can do to files accessibl
           <xhtml:ul>
             <xhtml:li>
               <xhtml:span class="inline_block">targeted</xhtml:span>
-: targeted processes run in their own domain, called a confined domain. In a confined domain, the files that a targeted process has access to are limited. If a confined process is compromised by an attacker, the attackers access to resources and the possible damage they can do is also limited. SELinux denies access to these resources and logs the denial.            </xhtml:li>
+: targeted processes run in their own domain, called a confined domain. In a confined domain, the files that a targeted process has access to are limited. If a confined process is compromised by an attacker, the attackers access to resources and the possible damage they can do is also limited. SELinux denies access to these resources and logs the denial.            </xhtml:li>
             <xhtml:li>
               <xhtml:span class="inline_block">mls</xhtml:span>
 : implements Multi-Level Security (MLS), which introduces even more kinds of labels (sensitivity and category) and rules that govern access based on these.            </xhtml:li>
@@ -4872,7 +4872,7 @@ Edit the                   <xhtml:span class="inline_block">/etc/selinux/config<
             </notes:notes>
           </xccdf:metadata>
           <xccdf:rationale xml:lang="en">
-            <xhtml:p>For unconfined processes, SELinux policy rules are applied, but policy rules exist that allow processes running in unconfined domains almost all access. Processes running in unconfined domains fall back to using DAC rules exclusively. If an unconfined process is compromised, SELinux does not prevent an attacker from gaining access to system resources and data, but of course, DAC rules are still used. SELinux is a security enhancement on top of DAC rules  it does not replace them</xhtml:p>
+            <xhtml:p>For unconfined processes, SELinux policy rules are applied, but policy rules exist that allow processes running in unconfined domains almost all access. Processes running in unconfined domains fall back to using DAC rules exclusively. If an unconfined process is compromised, SELinux does not prevent an attacker from gaining access to system resources and data, but of course, DAC rules are still used. SELinux is a security enhancement on top of DAC rules  it does not replace them</xhtml:p>
           </xccdf:rationale>
           <xccdf:ident cc7:controlURI="http://cisecurity.org/20-cc/v7.0/control/9/subcontrol/2" system="http://cisecurity.org/20-cc/v7.0"/>
           <xccdf:ident cc8:controlURI="http://cisecurity.org/20-cc/v8.0/control/3/subcontrol/3" system="http://cisecurity.org/20-cc/v8.0"/>
@@ -8037,7 +8037,7 @@ Run                   <xhtml:strong>one</xhtml:strong>
               <xhtml:strong>If nftables or iptables are being used in your environment, please follow the guidance in their respective section and pass-over the guidance in this section.</xhtml:strong>
             </xhtml:em>
           </xhtml:p>
-          <xhtml:p>firewalld (Dynamic Firewall Manager) provides a dynamically managed firewall with support for network/firewall zones to assign a level of trust to a network and its associated connections, interfaces or sources. It has support for IPv4, IPv6, Ethernet bridges and also for IPSet firewall settings. There is a separation of the runtime and permanent configuration options. It also provides an interface for services or applications to add iptables, ip6tables and ebtables rules directly. This interface can also be used by advanced users.</xhtml:p>
+          <xhtml:p>firewalld (Dynamic Firewall Manager) provides a dynamically managed firewall with support for network/firewall zones to assign a level of trust to a network and its associated connections, interfaces or sources. It has support for IPv4, IPv6, Ethernet bridges and also for IPSet firewall settings. There is a separation of the runtime and permanent configuration options. It also provides an interface for services or applications to add iptables, ip6tables and ebtables rules directly. This interface can also be used by advanced users.</xhtml:p>
           <xhtml:p>In the v0.6.0 release, firewalld gained support for using nftables as a firewall back-end.</xhtml:p>
           <xhtml:p>
             <xhtml:em>Note: Configuration of a live system's firewall directly over a remote connection will often result in being locked out.</xhtml:em>
@@ -9827,7 +9827,7 @@ Edit               <xhtml:span class="inline_block">/etc/default/grub</xhtml:spa
             <xhtml:p>
 Run the following command to update the               <xhtml:span class="inline_block">grub2</xhtml:span>
  configuration:            </xhtml:p>
-            <xhtml:code class="code_block"># grub2-mkconfig o /boot/grub2/grub.cfg
+            <xhtml:code class="code_block"># grub2-mkconfig o /boot/grub2/grub.cfg
 </xhtml:code>
             <xhtml:p>
               <xhtml:em>OR</xhtml:em>
@@ -14253,7 +14253,7 @@ Edit the                 <xhtml:span class="inline_block">/etc/ssh/sshd_config</
       <xccdf:Rule id="xccdf_org.cisecurity.benchmarks_rule_5.2.16_Ensure_SSH_PAM_is_enabled" role="full" selected="false" weight="1.0">
         <xccdf:title xml:lang="en">Ensure SSH PAM is enabled</xccdf:title>
         <xccdf:description xml:lang="en">
-          <xhtml:p>UsePAM Enables the Pluggable Authentication Module interface. If set to yes this will enable PAM authentication using ChallengeResponseAuthentication and PasswordAuthentication in addition to PAM account and session module processing for all authentication types</xhtml:p>
+          <xhtml:p>UsePAM Enables the Pluggable Authentication Module interface. If set to yes this will enable PAM authentication using ChallengeResponseAuthentication and PasswordAuthentication in addition to PAM account and session module processing for all authentication types</xhtml:p>
         </xccdf:description>
         <xccdf:metadata>
           <controls:cis_controls xmlns:controls="http://cisecurity.org/controls">

@@ -104,3 +104,47 @@ bash
 Copiar código
 python --version
 
+
+Ambiente en Red hat
+sudo yum update -y
+sudo ln -s /usr/local/bin/python3.12 /usr/bin/python3
+[root@vsftpd ~]# sudo mkdir -p /mnt/hgfs
+[root@vsftpd ~]# sudo vmhgfs-fuse .host:/ /mnt/hgfs -o allow_other
+[root@vsftpd ~]# ls /mnt/hgfs/
+dnf install python3.12
+dnf install python3.12-pip
+https://access.redhat.com/documentation/es-es/red_hat_enterprise_linux/9/html/installing_and_using_dynamic_programming_languages/assembly_installing-and-using-python_installing-and-using-dynamic-programming-languages
+sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+sudo dnf upgrade
+sudo yum install snapd
+sudo systemctl enable --now snapd.socket
+sudo ln -s /var/lib/snapd/snap /snap
+sudo snap install pycharm-community --classic
+
+
+xml
+sudo yum install xsltproc
+xsltproc style.xsl input.xml -o output.html
+
+
+
+open scap
+sudo yum install -y openscap-scanner scap-security-guide
+sudo oscap xccdf eval --profile xccdf_org.cisecurity.benchmarks_profile_Level_1_Server --results results.xml --report report.html CIS_Red_Hat_Enterprise_Linux_8_Benchmark_v1.0.1-xccdf.xml
+Limpiar archivo xml
+# Crear una copia de seguridad del archivo original
+cp CIS_Red_Hat_Enterprise_Linux_8_Benchmark_v1.0.1-xccdf.xml CIS_Red_Hat_Enterprise_Linux_8_Benchmark_v1.0.1-xccdf.xml.bak
+
+# Usar sed para eliminar caracteres no válidos
+sed -i 's/[\x00-\x1F\x7F]//g' CIS_Red_Hat_Enterprise_Linux_8_Benchmark_v1.0.1-xccdf.xml
+
+
+ver perfiles disponibles
+oscap info "CIS_Red_Hat_Enterprise_Linux_8_Benchmark_v1.0.1-xccdf.xml"
+
+ejecutar perfil
+sudo oscap xccdf eval --profile xccdf_org.cisecurity.benchmarks_profile_Level_1_-_Server --results results.xml --report report.html CIS_Red_Hat_Enterprise_Linux_8_Benchmark_v1.0.1-xccdf.xml
+
+
+Level 1 - Workstation: xccdf_org.cisecurity.benchmarks_profile_Level_1_-_Workstation
+Level 2 - Workstation: xccdf_org.cisecurity.benchmarks_profile_Level_2_-_Workstation
