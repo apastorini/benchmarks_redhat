@@ -52,14 +52,27 @@
         <th>Rule Title</th>
         <th>Description</th>
         <th>Status</th>
+        <th>Profiles</th>
+        <th>Values</th>
       </tr>
       <xsl:for-each select="xccdf:select">
+        <xsl:variable name="rule" select="key('rule', @idref)"/>
         <tr>
           <td><xsl:value-of select="@idref"/></td>
           <td><xsl:value-of select="@selected"/></td>
-          <td><xsl:value-of select="key('rule', @idref)/xccdf:title"/></td>
-          <td><xsl:value-of select="key('rule', @idref)/xccdf:description/xhtml:p"/></td>
-          <td><xsl:value-of select="key('rule', @idref)/xccdf:status"/></td>
+          <td><xsl:value-of select="$rule/xccdf:title"/></td>
+          <td><xsl:apply-templates select="$rule/xccdf:description/xhtml:p"/></td>
+          <td><xsl:value-of select="$rule/xccdf:result"/></td>
+          <td>
+            <xsl:for-each select="$rule/xccdf:profile">
+              <xsl:value-of select="@id"/> <xsl:if test="position() != last()">, </xsl:if>
+            </xsl:for-each>
+          </td>
+          <td>
+            <xsl:for-each select="$rule/xccdf:check-export">
+              <xsl:value-of select="@value-id"/> <xsl:if test="position() != last()">, </xsl:if>
+            </xsl:for-each>
+          </td>
         </tr>
       </xsl:for-each>
     </table>
