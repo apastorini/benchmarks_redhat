@@ -148,3 +148,32 @@ sudo oscap xccdf eval --profile xccdf_org.cisecurity.benchmarks_profile_Level_1_
 
 Level 1 - Workstation: xccdf_org.cisecurity.benchmarks_profile_Level_1_-_Workstation
 Level 2 - Workstation: xccdf_org.cisecurity.benchmarks_profile_Level_2_-_Workstation
+
+
+
+analisis xml
+
+para cada profile se lsitan las reglas primero
+
+Ejemoplo
+ <xccdf:Profile id="xccdf_org.cisecurity.benchmarks_profile_Level_1_-_Server">
+    <xccdf:title xml:lang="en">Level 1 - Server</xccdf:title>
+    <xccdf:description xml:lang="en">
+      <xhtml:p>Items in this profile intend to:</xhtml:p>
+      <xhtml:ul>
+        <xhtml:li>be practical and prudent;</xhtml:li>
+        <xhtml:li>provide a clear security benefit; and</xhtml:li>
+        <xhtml:li>not inhibit the utility of the technology beyond acceptable means.</xhtml:li>
+      </xhtml:ul>
+      <xhtml:p>This profile is intended for servers.</xhtml:p>
+    </xccdf:description>
+
+La siguiente es la regla
+    <xccdf:select idref="xccdf_org.cisecurity.benchmarks_rule_1.1.1.1_Ensure_mounting_of_cramfs_filesystems_is_disabled" selected="true"/>
+    
+Cada regla puede tener varios values
+
+dentro de las rules estàn los  <check system="http://open-scap.org/page/SCE">
+
+que a traves del urn ahcen refrencia al value que  tiene lc òdigo a ejecutar
+

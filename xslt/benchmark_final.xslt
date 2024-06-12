@@ -57,9 +57,9 @@
         <tr>
           <td><xsl:value-of select="@idref"/></td>
           <td><xsl:value-of select="@selected"/></td>
-          <td><xsl:value-of select="key('rule-title', @idref)"/></td>
-          <td><xsl:value-of select="key('rule-description', @idref)"/></td>
-          <td><xsl:value-of select="key('rule-status', @idref)"/></td>
+          <td><xsl:value-of select="key('rule', @idref)/xccdf:title"/></td>
+          <td><xsl:value-of select="key('rule', @idref)/xccdf:description/xhtml:p"/></td>
+          <td><xsl:value-of select="key('rule', @idref)/xccdf:status"/></td>
         </tr>
       </xsl:for-each>
     </table>
@@ -88,19 +88,6 @@
     </div>
   </xsl:template>
 
-  <!-- Key for rule titles -->
-  <xsl:key name="rule-title" match="xccdf:Rule" use="@id">
-    <xsl:value-of select="xccdf:title"/>
-  </xsl:key>
-
-  <!-- Key for rule descriptions -->
-  <xsl:key name="rule-description" match="xccdf:Rule" use="@id">
-    <xsl:value-of select="xccdf:description/xhtml:p"/>
-  </xsl:key>
-
-  <!-- Key for rule statuses -->
-  <xsl:key name="rule-status" match="xccdf:Rule" use="@id">
-    <xsl:value-of select="xccdf:status"/>
-  </xsl:key>
-
+  <!-- Key for rules -->
+  <xsl:key name="rule" match="xccdf:Rule" use="@id"/>
 </xsl:stylesheet>

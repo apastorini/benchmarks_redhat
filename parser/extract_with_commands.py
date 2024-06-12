@@ -15,10 +15,16 @@ def extract_values_and_rules(file_path, profile_filter=None):
     # Parse values to find their title and value content
     values_dict = {}
     for value in root.findall('.//xccdf:Value', namespaces):
+        value_id = value.get('id')
         title_elem = value.find('xccdf:title', namespaces)
         value_elem = value.find('xccdf:value', namespaces)
         if title_elem is not None and value_elem is not None:
-            values_dict[title_elem.text.strip()] = value_elem.text.strip()
+            value_object = {
+                'value_elem': value_elem.text.strip(),
+                'title_elem': title_elem.text.strip(),
+                'rule_titles': []
+            }
+            values_dict[value_id] = value_object
 
     # Parse profiles to find rules associated with each profile
     for profile in root.findall('.//xccdf:Profile', namespaces):
@@ -46,26 +52,38 @@ def extract_values_and_rules(file_path, profile_filter=None):
             # Get profiles associated with this rule
             profiles = ', '.join(profile_rules.get(rule_id, []))
 
-            # Get the value associated with the rule title
-            value = values_dict.get(rule_title, '')
+            # Get the value associated with the rule using <check-export>
+            value_id = ''
+            value_title = ''
+            value = ''
+            check_export = rule.find('.//xccdf:check-export', namespaces)
+            if check_export is not None:
+                value_id = check_export.get('value-id')
+                if value_id in values_dict:
+                    value_title = values_dict[value_id]['title_elem']
+                    value = values_dict[value_id]['value_elem']
 
             # Filter by profile if profile_filter is provided
             if profile_filter:
                 if profile_filter in profiles.split(', '):
                     data.append({
-                        'Title': rule_title,
+                        'Rule Title': rule_title,
                         'Rule ID': rule_id,
                         'Group ID': group_id,
                         'Profiles': profiles,
-                        'Value': value
+                        'Value Title': value_title,
+                        'Value': value,
+                        'Value ID': value_id
                     })
             else:
                 data.append({
-                    'Title': rule_title,
+                    'Rule Title': rule_title,
                     'Rule ID': rule_id,
                     'Group ID': group_id,
                     'Profiles': profiles,
-                    'Value': value
+                    'Value Title': value_title,
+                    'Value': value,
+                    'Value ID': value_id
                 })
 
     return data
@@ -85,6 +103,6 @@ if __name__ == '__main__':
 
     file_path = '../data/CIS_Red_Hat_Enterprise_Linux_8_Benchmark_v1.0.1-xccdf.xml'
     data = extract_values_and_rules(file_path, profile_filter=args.profile)
-    output_filename = 'values_rules_groups_profiles_commands.csv' if not args.profile else f'values_rules_groups_profiles_commands_{args.profile}.csv'
+    output_filename = 'values_rules_groups_profiles.csv' if not args.profile else f'values_rules_groups_profiles_{args.profile}.csv'
     save_to_csv(data, filename=output_filename, profile_filter=args.profile)
     print(f"Values, rules, groups, and profiles saved to {output_filename}")
