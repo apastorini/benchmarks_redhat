@@ -177,3 +177,6 @@ dentro de las rules estàn los  <check system="http://open-scap.org/page/SCE">
 
 que a traves del urn ahcen refrencia al value que  tiene lc òdigo a ejecutar
 
+
+
+leer la politica del sistema operativo
