@@ -1,5 +1,6 @@
 import os
 import importlib
+from reports.generate_html import generate_html_report
 
 def main():
     # Directorio del paquete 'checks'
@@ -29,11 +30,22 @@ def main():
     checks.sort(key=lambda x: x.number)
 
     # Ejecutar y mostrar los checks
+    results = []
     for check in checks:
-        if check.check():
-            print(f"Compliance check '{check.title}' ({check.number}) passed: {check.passed}")
-        else:
-            print(f"Compliance check '{check.title}' ({check.number}) passed: {check.passed}")
+        result = check.check()
+        results.append({
+            'TITLE': check.title,
+            'NUMBER': check.number,
+            'COMMANDS': check.command,
+            'PROFILE': check.profile,
+            'DESCRIPTION': check.description,
+            'PASSED': check.passed
+        })
+        print(f"Compliance check '{check.title}' ({check.number}) passed: {check.passed}")
+
+    # Generar reporte HTML
+    generate_html_report(results)
+
 
 if __name__ == '__main__':
     from classes.compliance_check import ComplianceCheck
