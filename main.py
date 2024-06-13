@@ -1,12 +1,11 @@
 import os
 import importlib
 
-from classes.compliance_check import ComplianceCheck
-
-
 def main():
     # Directorio del paquete 'checks'
     checks_dir = os.path.join(os.path.dirname(__file__), 'checks')
+
+    checks = []
 
     # Recorrer archivos .py en el paquete 'checks'
     for filename in os.listdir(checks_dir):
@@ -24,10 +23,18 @@ def main():
 
             if check_class:
                 check_instance = check_class()
-                if check_instance.check():
-                    print(f"Compliance check '{check_instance.title}' ({check_instance.number}) passed: {check_instance.passed}")
-                else:
-                    print(f"Compliance check '{check_instance.title}' ({check_instance.number}) passed: {check_instance.passed}")
+                checks.append(check_instance)
+
+    # Ordenar los checks por el número
+    checks.sort(key=lambda x: x.number)
+
+    # Ejecutar y mostrar los checks
+    for check in checks:
+        if check.check():
+            print(f"Compliance check '{check.title}' ({check.number}) passed: {check.passed}")
+        else:
+            print(f"Compliance check '{check.title}' ({check.number}) passed: {check.passed}")
 
 if __name__ == '__main__':
+    from classes.compliance_check import ComplianceCheck
     main()

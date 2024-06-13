@@ -180,3 +180,8 @@ que a traves del urn ahcen refrencia al value que  tiene lc òdigo a ejecutar
 
 
 leer la politica del sistema operativo
+
+
+
+
+https://access.redhat.com/documentation/es-es/red_hat_enterprise_linux/9/html/installing_and_using_dynamic_programming_languages/assembly_installing-and-using-python_installing-and-using-dynamic-programming-languages
