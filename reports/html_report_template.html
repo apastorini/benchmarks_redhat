@@ -8,7 +8,7 @@
     <style>
         body {
             font-family: 'Lato', sans-serif;
-            background-color: #f4f4f4;
+            background-color: #ffffff;
             margin: 0;
             padding: 0;
         }
@@ -22,8 +22,8 @@
             justify-content: center;
             align-items: center;
             padding: 20px;
-            background: #333;
-            color: #fff;
+            background: #ffffff;
+            color: #333;
         }
         #branding img {
             height: 80px;
@@ -57,8 +57,14 @@
             text-align: left;
         }
         th {
-            background: #333;
+            background: #00aaff;
             color: #fff;
+        }
+        tr:nth-child(even) {
+            background-color: #e0f7fa;
+        }
+        tr:nth-child(odd) {
+            background-color: #ffffff;
         }
         .scoring {
             text-align: right;
@@ -79,7 +85,9 @@
         <h2>Compliance Report</h2>
         <div class="execution-date">Execution Date: {{ execution_date }}</div>
         <div class="scoring">
-            <span id="scoringLabel">Scoring: </span>
+            <span id="scoringLabel">Scoring: </span><br>
+            <span id="totalPolicies">Total Policies Executed: </span><br>
+            <span id="totalPassedPolicies">Total Policies Passed: </span>
         </div>
         <div class="search-container">
             <div class="form-group">
@@ -169,6 +177,8 @@
             }
             let score = totalCount > 0 ? (passedCount / totalCount * 100).toFixed(2) : 0;
             document.getElementById("scoringLabel").textContent = `Scoring: ${score}%`;
+            document.getElementById("totalPolicies").textContent = `Total Policies Executed: ${totalCount}`;
+            document.getElementById("totalPassedPolicies").textContent = `Total Policies Passed: ${passedCount}`;
         }
     </script>
 </body>

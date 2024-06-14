@@ -21,6 +21,14 @@ sudo yum install -y git gcc zlib-devel bzip2 bzip2-devel readline-devel sqlite s
 Recargar shell:source ~/.bashrc
 dnf install python3.12
 dnf install python3.12-pip
+Encontrar ubicaciòn pip:find / -name "pip3.12" 2>/dev/null
+
+Para que el cambio sea permanente hacer:
+nano ~/.bashrc
+y agregar: export PATH=$PATH:/usr/local/bin
+Verificar la instalaciòn de pip con: pip3.12 --version
+
+Luego hacer
 sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
 sudo dnf upgrade
 
@@ -37,6 +45,7 @@ python3 -m venv venv (el comando python puede ser python3.12, segùn se haya hec
 El entorno virtual se activa con: venv\Scripts\activate         
 4. Instalar las dependencias:
       pip install -r requirements.txt
+(o pip3.12 install -r requirements.txt segùn como estè el pip)
 5. Ejecutar còdigo:
  ./main.py
 
