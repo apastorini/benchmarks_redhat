@@ -30,8 +30,8 @@ sudo ln -s /usr/local/bin/python3.12 /usr/bin/python3
 
 
 ## Descargar y ejecutar el código
-1. Clona el repositorio, la rama main.
-2. Navega al directorio del proyecto.
+1. Clonar el repositorio, la rama main.
+2. Navegar al directorio del proyecto.
 3. Dentro de la carpeta benchmark_script crear un entorno virtual
 python3 -m venv venv (el comando python puede ser python3.12, segùn se haya hecho el enlace sìmbolico o no. se debe agregar python y pip al path)
 El entorno virtual se activa con: venv\Scripts\activate         
