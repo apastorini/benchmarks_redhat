@@ -2,10 +2,6 @@ import importlib
 import os
 import pkgutil
 from classes.compliance_check import ComplianceCheck
-from reports.generate_html import generate_html_report
-from reports.generate_pdf_report import generate_pdf_report
-from reports.generate_kpi_report import generate_kpi_pdf_report
-from reports.generate_csv_report import generate_csv_report
 
 def import_submodules(package, recursive=True):
     """ Importa todos los submódulos de un paquete, opcionalmente de manera recursiva """
@@ -13,9 +9,10 @@ def import_submodules(package, recursive=True):
         package = importlib.import_module(package)
     results = {}
     for loader, name, is_pkg in pkgutil.walk_packages(package.__path__, package.__name__ + "."):
-        results[name] = importlib.import_module(name)
-        if recursive and is_pkg:
-            results.update(import_submodules(name))
+        if '__init__' not in name:
+            results[name] = importlib.import_module(name)
+            if recursive and is_pkg:
+                results.update(import_submodules(name))
     return results
 
 def main():
@@ -51,17 +48,18 @@ def main():
         })
         print(f"Compliance check '{check.title}' ({check.number}) passed: {check.passed}")
 
-    # Generar reporte HTML
-    generate_html_report(results)
+    # Directorio del paquete 'reports'
+    reports_package = 'reports'
 
-    # Generar reporte PDF
-    generate_pdf_report(results)
+    # Importar todos los submódulos recursivamente
+    report_modules = import_submodules(reports_package)
 
-    # Generar reporte KPI
-    generate_kpi_pdf_report(results)
-
-    # Generar reporte CSV
-    generate_csv_report(results)
+    # Ejecutar todos los generadores de reportes
+    for module_name, module in report_modules.items():
+        for attr_name in dir(module):
+            attr = getattr(module, attr_name)
+            if callable(attr) and attr_name.startswith('generate_'):
+                attr(results)
 
 if __name__ == '__main__':
     main()
