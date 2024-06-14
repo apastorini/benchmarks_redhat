@@ -1,6 +1,8 @@
 import os
 import importlib
 from reports.generate_html import generate_html_report
+from reports.generate_pdf_report import generate_pdf_report
+
 
 def main():
     # Directorio del paquete 'checks'
@@ -45,6 +47,8 @@ def main():
 
     # Generar reporte HTML
     generate_html_report(results)
+    # Generate PDF report
+    generate_pdf_report(results)
 
 
 if __name__ == '__main__':

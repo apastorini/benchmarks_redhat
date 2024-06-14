@@ -1,33 +1,40 @@
 import os
 import pandas as pd
 from jinja2 import Environment, FileSystemLoader
-import traceback
+from datetime import datetime
 
-def generate_html_report(results, output_file='./generados/report.html', template_file='html_report_template.html'):
-    try:
-        # Crear un DataFrame de los resultados
-        df = pd.DataFrame(results)
+def generate_html_report(results, output_dir='./generados', template_file='html_report_template.html'):
+    # Create a DataFrame of the results
+    df = pd.DataFrame(results)
 
-        # Obtener el directorio del paquete reports
-        current_dir = os.path.dirname(os.path.abspath(__file__))
+    # Get the current directory
+    current_dir = os.path.dirname(os.path.abspath(__file__))
 
-        # Configurar Jinja2 Environment con el directorio del paquete reports
-        env = Environment(loader=FileSystemLoader(current_dir))
-        template = env.get_template(template_file)
+    # Configure Jinja2 Environment with the current directory
+    env = Environment(loader=FileSystemLoader(current_dir))
+    template = env.get_template(template_file)
 
-        # Renderizar la plantilla con los datos
-        html_content = template.render(results=df.to_dict(orient='records'))
+    # Get the current date
+    current_date = datetime.now().strftime('%Y-%m-%d')
 
-        # Crear directorio de salida si no existe
-        output_dir = os.path.dirname(output_file)
-        if not os.path.exists(output_dir):
-            os.makedirs(output_dir)
+    # Render the template with the data
+    html_content = template.render(results=df.to_dict(orient='records'), execution_date=current_date)
 
-        # Guardar el contenido HTML en un archivo
-        with open(output_file, 'w') as file:
-            file.write(html_content)
-        print(f"Reporte HTML generado: {output_file}")
-    except Exception as e:
-        print(f"Error generando el reporte HTML: {e}")
-        traceback.print_exc()
+    # Ensure the output directory exists
+    os.makedirs(output_dir, exist_ok=True)
 
+    # Create the output file path with the current date suffix
+    output_file = os.path.join(output_dir, f'report_{current_date}.html')
+
+    # Save the HTML content to a file with UTF-8 encoding
+    with open(output_file, 'w', encoding='utf-8') as file:
+        file.write(html_content)
+    print(f"HTML report generated: {output_file}")
+
+if __name__ == '__main__':
+    # Example usage
+    results = [
+        {'TITLE': 'Example Title', 'NUMBER': '1.1.1.1', 'COMMANDS': 'example_command', 'PROFILE': 'Level 1 - Server', 'DESCRIPTION': 'Example description', 'PASSED': 'true'},
+        # Add more results here...
+    ]
+    generate_html_report(results)

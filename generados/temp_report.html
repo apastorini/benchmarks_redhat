@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compliance Report</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 90%;
+            margin: auto;
+            overflow: hidden;
+        }
+        #branding {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background: #333;
+            color: #fff;
+        }
+        #branding img {
+            height: 80px;
+            margin-right: 20px;
+        }
+        h2 {
+            text-align: center;
+        }
+        .search-container {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .search-container input {
+            padding: 10px;
+            width: 50%;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: #fff;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background: #333;
+            color: #fff;
+        }
+        .scoring {
+            text-align: right;
+            margin: 20px 0;
+        }
+        .execution-date {
+            text-align: right;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header id="branding">
+        <img src="ivera.png" alt="iVera Logo">
+    </header>
+    <div class="container">
+        <h2>Compliance Report</h2>
+        <div class="execution-date">Execution Date: 2024-06-14</div>
+        <div class="scoring">
+            <span id="scoringLabel">Scoring: </span>
+        </div>
+        <div class="search-container">
+            <div class="form-group">
+                <input type="text" class="form-control" id="titleSearch" placeholder="Search for Title.." onkeyup="searchTable()">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="numberSearch" placeholder="Search for Number.." onkeyup="searchTable()">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="profileSearch" placeholder="Search for Profile.." onkeyup="searchTable()">
+            </div>
+        </div>
+        <table id="complianceTable" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Number</th>
+                    <th>Commands</th>
+                    <th>Profile</th>
+                    <th>Description</th>
+                    <th>Passed</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    <td>Ensure mounting of cramfs filesystems is disabled</td>
+                    <td>1.1.1.1</td>
+                    <td>['modprobe -n -v cramfs | grep "^install"', 'lsmod | grep cramfs', 'grep -E "^blacklist\\s+cramfs" /etc/modprobe.d/*']</td>
+                    <td>['Level 1 - Server', 'Level 1 - Workstation']</td>
+                    <td>The cramfs filesystem type is a compressed read - only Linux filesystem embedded in small
+    footprint systems.A cramfs image can be used  without having to first decompress it. This can be used to mount  the
+    image.</td>
+                    <td>False</td>
+                </tr>
+                
+                <tr>
+                    <td>Ensure mounting of squashfs filesystems is disabled</td>
+                    <td>1.1.1.2</td>
+                    <td>['modprobe -n -v squashfs | grep "^install"', 'lsmod | grep squashfs', 'grep -E "^blacklist\\s+squashfs" /etc/modprobe.d/*']</td>
+                    <td>['Level 2 - Server', 'Level 2 - Workstation']</td>
+                    <td>The squashfs filesystem type is a compressed read-only Linux filesystem embedded in small 
+    footprint systems. A squashfs image can be used without having to first decompress it. 
+    Removing support for unneeded filesystem types reduces the local attack surface of the system. 
+    If this filesystem type is not needed, disable it.
+    Impact: As Snap packages utilizes squashfs as a compressed filesystem, disabling squashfs will cause Snap packages to fail. 
+    Snap application packages of software are self-contained and work across a range of Linux distributions. 
+    This is unlike traditional Linux package management approaches, like APT or RPM, which require specifically adapted 
+    packages per Linux distribution on an application update and delay therefore application deployment from developers 
+    to their software's end-user. Snaps themselves have no dependency on any external store ("App store"), can be obtained 
+    from any source and can be therefore used for upstream software deployment.</td>
+                    <td>False</td>
+                </tr>
+                
+                <tr>
+                    <td>Ensure mounting of udf filesystems is disabled</td>
+                    <td>1.1.1.3</td>
+                    <td>['modprobe -n -v udf | grep "^install"', 'lsmod | grep udf', 'grep -E "^blacklist\\s*udf" /etc/modprobe.d/*']</td>
+                    <td>['Level 2 - Server', 'Level 2 - Workstation']</td>
+                    <td>The udf filesystem type is the universal disk format used to implement ISO/IEC 13346 and ECMA-167 specifications. 
+    This is an open vendor filesystem type for data storage on a broad range of media. This filesystem type is necessary 
+    to support writing DVDs and newer optical disc formats. 
+    Removing support for unneeded filesystem types reduces the local attack surface of the system. 
+    If this filesystem type is not needed, disable it. 
+    Impact: Microsoft Azure requires the usage of udf. 
+    udf should not be disabled on systems run on Microsoft Azure.</td>
+                    <td>False</td>
+                </tr>
+                
+                <tr>
+                    <td>Ensure /tmp is a separate partition</td>
+                    <td>1.1.2.1</td>
+                    <td>['findmnt --kernel /tmp', 'systemctl is-enabled tmp.mount']</td>
+                    <td>['Level 1 - Server', 'Level 1 - Workstation']</td>
+                    <td>The /tmp directory is a world-writable directory used for temporary storage by all users and some applications. 
+    Making /tmp its own file system allows an administrator to set additional mount options such as the noexec option on the mount, 
+    making /tmp useless for an attacker to install executable code. It would also prevent an attacker from establishing a hard link to 
+    a system setuid program and wait for it to be updated. Once the program was updated, the hard link would be broken and the attacker 
+    would have his own copy of the program. If the program happened to have a security vulnerability, the attacker could continue to exploit 
+    the known flaw. This can be accomplished by either mounting tmpfs to /tmp, or creating a separate partition for /tmp.</td>
+                    <td>False</td>
+                </tr>
+                
+                <tr>
+                    <td>Ensure nodev option set on /tmp partition</td>
+                    <td>1.1.2.2</td>
+                    <td>['findmnt --kernel /tmp | grep nodev']</td>
+                    <td>['Level 1 - Server', 'Level 1 - Workstation']</td>
+                    <td>The nodev mount option specifies that the filesystem cannot contain special devices.
+    Since the /tmp filesystem is not intended to support devices, set this option to ensure that users cannot create 
+    a block or character special devices in /tmp.</td>
+                    <td>False</td>
+                </tr>
+                
+                <tr>
+                    <td>Ensure separate partition exists for /var/tmp</td>
+                    <td>1.1.4.1</td>
+                    <td>['findmnt --kernel /var/tmp']</td>
+                    <td>['Level 2 - Server', 'Level 2 - Workstation']</td>
+                    <td>
+    The /var/tmp directory is a world-writable directory used for temporary storage by all users and some applications. 
+    Temporary file residing in /var/tmp is to be preserved between reboots.
+    The reasoning for mounting /var/tmp on a separate partition is as follow.
+    Protection from resource exhaustion
+    The default installation only creates a single / partition. Since the /var directory may contain world-writable files 
+    and directories, there is a risk of resource exhaustion. It will essentially have the whole disk available to fill up 
+    and impact the system as a whole. In addition, other operations on the system could fill up the disk unrelated to /var 
+    and cause unintended behavior across the system as the disk is full. See man auditd.conf for details.
+    Fine grained control over the mount
+    Configuring /var as its own file system allows an administrator to set additional mount options such as noexec/nosuid/nodev. 
+    These options limit an attacker’s ability to create exploits on the system. Other options allow for specific behavior. 
+    See man mount for exact details regarding filesystem-independent and filesystem-specific options.
+    Protection from exploitation
+    An example of exploiting /var may be an attacker establishing a hard-link to a system setuid program and wait for it to be updated. 
+    Once the program was updated, the hard-link would be broken and the attacker would have his own copy of the program. 
+    If the program happened to have a security vulnerability, the attacker could continue to exploit the known flaw.
+    Impact:
+    Resizing filesystems is a common activity in cloud-hosted servers. Separate filesystem partitions may prevent successful resizing, 
+    or may require the installation of additional tools solely for the purpose of resizing operations. 
+    The use of these additional tools may introduce their own security considerations.
+    </td>
+                    <td>False</td>
+                </tr>
+                
+                <tr>
+                    <td>Ensure separate partition exists for /var/log</td>
+                    <td>1.1.5.1</td>
+                    <td>['findmnt --kernel /var/log']</td>
+                    <td>['Level 2 - Server', 'Level 2 - Workstation']</td>
+                    <td>
+    The /var/log directory is used by system services to store log data.
+    The reasoning for mounting /var/log on a separate partition is as follow.
+    Protection from resource exhaustion
+    The default installation only creates a single / partition. Since the /var directory may contain world-writable files 
+    and directories, there is a risk of resource exhaustion. It will essentially have the whole disk available to fill up 
+    and impact the system as a whole. In addition, other operations on the system could fill up the disk unrelated to /var 
+    and cause unintended behavior across the system as the disk is full. See man auditd.conf for details.
+    Fine grained control over the mount
+    Configuring /var as its own file system allows an administrator to set additional mount options such as noexec/nosuid/nodev. 
+    These options limit an attacker’s ability to create exploits on the system. Other options allow for specific behavior. 
+    See man mount for exact details regarding filesystem-independent and filesystem-specific options.
+    Protection from exploitation
+    An example of exploiting /var may be an attacker establishing a hard-link to a system setuid program and wait for it to be updated. 
+    Once the program was updated, the hard-link would be broken and the attacker would have his own copy of the program. 
+    If the program happened to have a security vulnerability, the attacker could continue to exploit the known flaw.
+    Impact:
+    Resizing filesystems is a common activity in cloud-hosted servers. Separate filesystem partitions may prevent successful resizing, 
+    or may require the installation of additional tools solely for the purpose of resizing operations. 
+    The use of these additional tools may introduce their own security considerations.
+    </td>
+                    <td>False</td>
+                </tr>
+                
+                <tr>
+                    <td>Ensure AIDE is installed</td>
+                    <td>1.3.1</td>
+                    <td>['rpm -q aide']</td>
+                    <td>['Level 1 - Server', 'Level 1 - Workstation']</td>
+                    <td>
+    Advanced Intrusion Detection Environment (AIDE) is an intrusion detection tool that uses predefined rules to check 
+    the integrity of files and directories in the Linux operating system. AIDE has its own database to check the 
+    integrity of files and directories.
+    AIDE takes a snapshot of files and directories including modification times, permissions, and file hashes which 
+    can then be used to compare against the current state of the filesystem to detect modifications to the system.
+    By monitoring the filesystem state, compromised files can be detected to prevent or limit the exposure of accidental 
+    or malicious misconfigurations or modified binaries.
+    </td>
+                    <td>False</td>
+                </tr>
+                
+            </tbody>
+        </table>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            updateScoring();
+            document.getElementById('titleSearch').addEventListener('keyup', searchTable);
+            document.getElementById('numberSearch').addEventListener('keyup', searchTable);
+            document.getElementById('profileSearch').addEventListener('keyup', searchTable);
+        });
+
+        function searchTable() {
+            let inputTitle, inputNumber, inputProfile, filterTitle, filterNumber, filterProfile, table, tr, td, i, txtValue;
+            inputTitle = document.getElementById("titleSearch");
+            inputNumber = document.getElementById("numberSearch");
+            inputProfile = document.getElementById("profileSearch");
+            filterTitle = inputTitle.value.toUpperCase();
+            filterNumber = inputNumber.value.toUpperCase();
+            filterProfile = inputProfile.value.toUpperCase();
+            table = document.getElementById("complianceTable");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 1; i < tr.length; i++) {
+                tr[i].style.display = "none";
+                td = tr[i].getElementsByTagName("td");
+                if (td) {
+                    var title = td[0].textContent || td[0].innerText;
+                    var number = td[1].textContent || td[1].innerText;
+                    var profile = td[3].textContent || td[3].innerText;
+                    if (title.toUpperCase().indexOf(filterTitle) > -1 &&
+                        number.toUpperCase().indexOf(filterNumber) > -1 &&
+                        profile.toUpperCase().indexOf(filterProfile) > -1) {
+                        tr[i].style.display = "";
+                    }
+                }
+            }
+            updateScoring();
+        }
+
+        function updateScoring() {
+            let table, tr, td, i, passedCount = 0, totalCount = 0;
+            table = document.getElementById("complianceTable");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 1; i < tr.length; i++) {
+                if (tr[i].style.display !== "none") {
+                    totalCount++;
+                    td = tr[i].getElementsByTagName("td")[5];
+                    if (td && td.textContent.toLowerCase() === 'true') {
+                        passedCount++;
+                    }
+                }
+            }
+            let score = totalCount > 0 ? (passedCount / totalCount * 100).toFixed(2) : 0;
+            document.getElementById("scoringLabel").textContent = `Scoring: ${score}%`;
+        }
+    </script>
+</body>
+</html>
