@@ -24,7 +24,7 @@ class UdfCheck(ComplianceCheck):
     def check(self):
         # 1. Verify module loading behavior
         modprobe_output = self.run_command(self.COMMANDS[0])
-        if modprobe_output != 'install /bin/false':
+        if 'install /bin/false' not in modprobe_output:
             return False
 
         # 2. Verify module is not currently loaded
