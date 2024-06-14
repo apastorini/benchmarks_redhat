@@ -1,11 +1,33 @@
 import os
 from datetime import datetime
-from reportlab.lib.pagesizes import letter
+from reportlab.lib.pagesizes import letter, A4
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.lib.units import inch, cm
+from reportlab.lib.units import inch, cm, mm
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Table, TableStyle, Image, Spacer
 from reportlab.lib import colors
+from reportlab.pdfgen import canvas
 
+class NumberedCanvas(canvas.Canvas):
+    def __init__(self, *args, **kwargs):
+        canvas.Canvas.__init__(self, *args, **kwargs)
+        self._saved_page_states = []
+
+    def showPage(self):
+        self._saved_page_states.append(dict(self.__dict__))
+        self._startPage()
+
+    def save(self):
+        num_pages = len(self._saved_page_states)
+        for state in self._saved_page_states:
+            self.__dict__.update(state)
+            self.draw_page_number(num_pages)
+            canvas.Canvas.showPage(self)
+        canvas.Canvas.save(self)
+
+    def draw_page_number(self, page_count):
+        self.setFont("Helvetica", 9)
+        self.drawRightString(200 * mm, 10 * mm,
+                             "Page %d of %d" % (self._pageNumber, page_count))
 
 def generate_pdf_report(results, output_dir='./generados'):
     # Get the current date
@@ -19,18 +41,10 @@ def generate_pdf_report(results, output_dir='./generados'):
     output_file = os.path.join(output_dir, f'reporte_{current_date}.pdf')
 
     # Create the document
-    doc = SimpleDocTemplate(output_file, pagesize=letter,
+    doc = SimpleDocTemplate(output_file, pagesize=A4,
                             leftMargin=2 * cm, rightMargin=2 * cm,
                             topMargin=2 * cm, bottomMargin=2 * cm)
     elements = []
-
-    # Add logo
-    logo_path = 'ivera.png'  # Ensure this path is correct and the file exists
-    if os.path.exists(logo_path):
-        logo = Image(logo_path)
-        logo.drawHeight = 1 * inch
-        logo.drawWidth = 2 * inch
-        elements.append(logo)
 
     # Add the title and date
     styles = getSampleStyleSheet()
@@ -52,8 +66,15 @@ def generate_pdf_report(results, output_dir='./generados'):
     # Add space
     elements.append(Spacer(1, 0.5 * cm))
 
+    # Add logo in the top right corner
+    logo_path = 'ivera.png'  # Ensure this path is correct and the file exists
+    if os.path.exists(logo_path):
+        logo = Image(logo_path, width=2 * inch, height=1 * inch)
+        logo.hAlign = 'RIGHT'
+        elements.append(logo)
+
     # Create the table data
-    table_data = [['TITLE', 'NUMBER', 'PROFILE', 'DESCRIPTION', 'PASSED']]
+    table_data = [['TITLE', 'NUMBER', 'PROFILE', 'DESCRIPTION', 'PASS']]
     for i, result in enumerate(results):
         table_data.append([
             Paragraph(result['TITLE'], styles['BodyText']),
@@ -71,7 +92,6 @@ def generate_pdf_report(results, output_dir='./generados'):
         ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
         ('FONTSIZE', (0, 0), (-1, -1), 10),
         ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-        ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
         ('GRID', (0, 0), (-1, -1), 1, colors.black),
         ('VALIGN', (0, 0), (-1, -1), 'TOP'),
         ('TEXTCOLOR', (0, 1), (-1, -1), colors.black),
@@ -79,14 +99,14 @@ def generate_pdf_report(results, output_dir='./generados'):
 
     # Apply alternating row background colors
     for row_index in range(1, len(table_data)):
-        bg_color = colors.beige if row_index % 2 == 0 else colors.lightcyan
+        bg_color = colors.white if row_index % 2 == 0 else colors.lightcyan
         table_style.add('BACKGROUND', (0, row_index), (-1, row_index), bg_color)
 
     table = Table(table_data, colWidths=[2 * inch, 1 * inch, 1.5 * inch, 3 * inch, 0.5 * inch])
     table.setStyle(table_style)
     elements.append(table)
 
-    # Build the PDF
-    doc.build(elements)
+    # Build the PDF with custom canvas for page numbers
+    doc.build(elements, canvasmaker=NumberedCanvas)
     print(f"PDF report generated: {output_file}")
 
