@@ -1,19 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Compliance Report</title>
     <style>
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 90%;
+            margin: auto;
+            overflow: hidden;
+        }
+        #branding {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background: #333;
+            color: #fff;
+        }
+        #branding img {
+            height: 80px;
+            margin-right: 20px;
+        }
+        h2 {
+            text-align: center;
+        }
+        .search-container {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .search-container input {
+            padding: 10px;
+            width: 30%;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
         table {
-            border-collapse: collapse;
             width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: #fff;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
         }
         th, td {
-            border: 1px solid black;
-            padding: 8px;
+            padding: 12px;
             text-align: left;
         }
         th {
-            background-color: #f2f2f2;
+            background: #333;
+            color: #fff;
         }
     </style>
     <script>
@@ -46,36 +91,43 @@
     </script>
 </head>
 <body>
-    <h2>Compliance Report</h2>
-    <label for="titleSearch">Search by Title:</label>
-    <input type="text" id="titleSearch" onkeyup="searchTable()">
-    <label for="numberSearch">Search by Number:</label>
-    <input type="text" id="numberSearch" onkeyup="searchTable()">
-    <label for="profileSearch">Search by Profile:</label>
-    <input type="text" id="profileSearch" onkeyup="searchTable()">
-    <table id="complianceTable">
-        <thead>
-            <tr>
-                <th>TITLE</th>
-                <th>NUMBER</th>
-                <th>COMMANDS</th>
-                <th>PROFILE</th>
-                <th>DESCRIPTION</th>
-                <th>PASSED</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for result in results %}
-            <tr>
-                <td>{{ result.TITLE }}</td>
-                <td>{{ result.NUMBER }}</td>
-                <td>{{ result.COMMANDS }}</td>
-                <td>{{ result.PROFILE }}</td>
-                <td>{{ result.DESCRIPTION }}</td>
-                <td>{{ result.PASSED }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <header id="branding">
+        <img src="ivera.png" alt="iVera Logo">
+    </header>
+    <div class="container">
+        <h2>Compliance Report</h2>
+        <div class="search-container">
+            <label for="titleSearch">Search by Title:</label>
+            <input type="text" id="titleSearch" onkeyup="searchTable()">
+            <label for="numberSearch">Search by Number:</label>
+            <input type="text" id="numberSearch" onkeyup="searchTable()">
+            <label for="profileSearch">Search by Profile:</label>
+            <input type="text" id="profileSearch" onkeyup="searchTable()">
+        </div>
+        <table id="complianceTable">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Number</th>
+                    <th>Commands</th>
+                    <th>Profile</th>
+                    <th>Description</th>
+                    <th>Passed</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for result in results %}
+                <tr>
+                    <td>{{ result.TITLE }}</td>
+                    <td>{{ result.NUMBER }}</td>
+                    <td>{{ result.COMMANDS }}</td>
+                    <td>{{ result.PROFILE }}</td>
+                    <td>{{ result.DESCRIPTION }}</td>
+                    <td>{{ result.PASSED }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>
