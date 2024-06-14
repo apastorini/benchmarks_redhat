@@ -1,6 +1,7 @@
 import os
 import importlib
 from reports.generate_html import generate_html_report
+from reports.generate_kpi_report import generate_kpi_pdf_report
 from reports.generate_pdf_report import generate_pdf_report
 
 
@@ -49,7 +50,8 @@ def main():
     generate_html_report(results)
     # Generate PDF report
     generate_pdf_report(results)
-
+    # Generar reporte KPI
+    generate_kpi_pdf_report(results)
 
 if __name__ == '__main__':
     from classes.compliance_check import ComplianceCheck
