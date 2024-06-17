@@ -7,6 +7,7 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Table, TableStyle, 
 from reportlab.lib import colors
 from reportlab.pdfgen import canvas
 
+
 class NumberedCanvas(canvas.Canvas):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -27,7 +28,8 @@ class NumberedCanvas(canvas.Canvas):
     def draw_page_number(self, page_count):
         self.drawRightString(200 * mm, 10 * mm, f"Page {self._pageNumber} of {page_count}")
 
-def generate_kpi_pdf_report(results, output_dir='./generados'):
+
+def generate_kpi_pdf_report(results: dict, output_dir='./generados'):
     # Get the current date
     current_date = datetime.now().strftime('%Y-%m-%d')
 

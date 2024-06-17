@@ -49,6 +49,36 @@ El entorno virtual se activa con: venv\Scripts\activate
 5. Ejecutar còdigo:
  ./main.py
 
+## Agregar nuevos scripts
+El sistema permite agregar y ejecutar dinàmicamente
+nuevos scripts de politicas. Los scripts de  polìticas
+se encuentran en la carpeta checks.
+Los nuevos scripts
+deben implementarse como clases,se puede usar cualquiera
+de los scripts como base, 
+-cambiando el nombre de la clase
+-La clase debe heredadr de Compliance Check
+Ej:class AideCheck(ComplianceCheck):
+-Debe contener los atributos
+TITLE,  NUMBER , COMMANDS,  PROFILE, DESCRIPTION 
+-Debe contener los siguientes dos mètodos:
+def __init__(self):
+        super().__init__(self.TITLE, self.NUMBER, self.COMMANDS, self.PROFILE, self.DESCRIPTION)
+
+def check(self):
+Dònde en check se define la lògica para ver si la salida de los comandos corresponde con la salida indicada en la guìa.
+
+
+## Reportes dinàmicos
+El sistema brinda la posibilidad de agregar scripts
+para generar distintos reportes. Se deben agregar en el
+paquete reports, y el main los auto detecta al ejecutarse.
+
+Los scripts de generaciòn de reportes deben tener un  mètodo
+def generate_xxx_report(results, output_dir='./generados'):
+cuyo prefijo sea "generate_" y reciba un dict y una ruta destino como paràmetro.
+
+Los resultados de los reportes se generan en la carpeta generados.
 
 ## (Opcional) Obtener una carpeta compartida del host principal
 sudo mkdir -p /mnt/hgfs
