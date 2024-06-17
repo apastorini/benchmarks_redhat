@@ -59,6 +59,11 @@ def main():
     # Importar todos los submódulos recursivamente
     report_modules = import_submodules(reports_package)
 
+    # Mostrar los módulos encontrados en el paquete 'reports'
+    print("Módulos encontrados en el paquete 'reports':")
+    for module_name in report_modules.keys():
+        print(module_name)
+
     # Ejecutar todos los generadores de reportes o los especificados
     for module_name, module in report_modules.items():
         for attr_name in dir(module):

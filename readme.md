@@ -81,8 +81,8 @@ cuyo prefijo sea "generate_" y reciba un dict y una ruta destino como paràmetro
 Los resultados de los reportes se generan en la carpeta generados.
 
 
-##Si se quiere ejecutar solo algunos reportes, se creo el script_ main_params
-python main_params.py --reports reports.generate_html_report reports.generate_pdf_report
+##Si se quiere ejecutar solo algunos reportes, se creo el script_ main_params y se debe ejecutar con el parámetro --reports
+Ej: --reports generate_html_report.py reports.generate_pdf_report.py
 
 Dònde se indica solo los reportes que se quieren ejecutar
 
