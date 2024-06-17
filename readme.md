@@ -80,6 +80,12 @@ cuyo prefijo sea "generate_" y reciba un dict y una ruta destino como paràmetro
 
 Los resultados de los reportes se generan en la carpeta generados.
 
+
+##Si se quiere ejecutar solo algunos reportes, se creo el script_ main_params
+python main_params.py --reports reports.generate_html_report reports.generate_pdf_report
+
+Dònde se indica solo los reportes que se quieren ejecutar
+
 ## (Opcional) Obtener una carpeta compartida del host principal
 sudo mkdir -p /mnt/hgfs
 sudo vmhgfs-fuse .host:/ /mnt/hgfs -o allow_other
