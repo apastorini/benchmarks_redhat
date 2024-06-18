@@ -2,7 +2,7 @@ import csv
 import os
 from datetime import datetime
 
-def generate_csv_report(results, output_dir='./generados'):
+def generate_csv_report(results, output_dir='../generados'):
     # Get the current date
     current_date = datetime.now().strftime('%Y-%m-%d')
 

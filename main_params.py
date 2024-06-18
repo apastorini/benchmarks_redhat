@@ -75,7 +75,7 @@ def main():
                     if report_name in args.reports:
                         print(f"Executing report: {report_name}")
                         try:
-                            attr(results)
+                            attr(results, output_dir='../generados')
                             print(f"Report {report_name} executed successfully.")
                         except Exception as e:
                             print(f"Error executing report {report_name}: {e}")
@@ -83,7 +83,7 @@ def main():
                     # Si no se especificaron reportes, ejecutar todos
                     print(f"Executing report: {report_name}")
                     try:
-                        attr(results)
+                        attr(results, output_dir='../generados')
                         print(f"Report {report_name} executed successfully.")
                     except Exception as e:
                         print(f"Error executing report {report_name}: {e}")

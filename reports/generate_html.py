@@ -3,7 +3,7 @@ import pandas as pd
 from jinja2 import Environment, FileSystemLoader
 from datetime import datetime
 
-def generate_html_report(results, output_dir='./generados', template_file='html_report_template.html'):
+def generate_html_report(results, output_dir='../generados', template_file='html_report_template.html'):
     # Create a DataFrame of the results
     df = pd.DataFrame(results)
 

@@ -59,7 +59,7 @@ def main():
         for attr_name in dir(module):
             attr = getattr(module, attr_name)
             if callable(attr) and attr_name.startswith('generate_'):
-                attr(results)
+                attr(results, output_dir='./generados')
     print(f" Total Policies {len(checks)} \n Total executed reports: {len(report_modules)}")
 
 

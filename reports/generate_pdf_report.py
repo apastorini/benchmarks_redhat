@@ -29,7 +29,7 @@ class NumberedCanvas(canvas.Canvas):
         self.drawRightString(200 * mm, 10 * mm,
                              "Page %d of %d" % (self._pageNumber, page_count))
 
-def generate_pdf_report(results, output_dir='./generados'):
+def generate_pdf_report(results, output_dir='../generados'):
     # Get the current date
     current_date = datetime.now().strftime('%Y-%m-%d')
 
