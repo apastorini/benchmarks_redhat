@@ -60,6 +60,8 @@ def main():
             attr = getattr(module, attr_name)
             if callable(attr) and attr_name.startswith('generate_'):
                 attr(results)
+    print(f" Total Policies {len(checks)} \n Total executed reports: {len(report_modules)}")
+
 
 if __name__ == '__main__':
     main()

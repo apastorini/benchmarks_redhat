@@ -82,7 +82,7 @@ Los resultados de los reportes se generan en la carpeta generados.
 
 
 ##Si se quiere ejecutar solo algunos reportes, se creo el script_ main_params y se debe ejecutar con el parámetro --reports
-Ej: --reports generate_html_report.py reports.generate_pdf_report.py
+Ej:python main_params.py --reports generate_html_report generate_pdf_report
 
 Dònde se indica solo los reportes que se quieren ejecutar
 
