@@ -47,7 +47,7 @@ def generate_kpi_pdf_report(results: dict, output_dir='../generados'):
     elements = []
 
     # Add logo
-    logo_path = 'ivera.png'  # Ensure this path is correct and the file exists
+    logo_path = '../resources/ivera_logo.jpg'  # Ensure this path is correct and the file exists
     if os.path.exists(logo_path):
         logo = Image(logo_path)
         logo.drawHeight = 1 * inch

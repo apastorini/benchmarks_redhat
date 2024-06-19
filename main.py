@@ -1,6 +1,7 @@
 import importlib
 import os
 import pkgutil
+import argparse
 from classes.compliance_check import ComplianceCheck
 
 def import_submodules(package, recursive=True):
@@ -16,6 +17,10 @@ def import_submodules(package, recursive=True):
     return results
 
 def main():
+    parser = argparse.ArgumentParser(description="Run compliance checks and generate reports.")
+    parser.add_argument('--reports', nargs='*', help='Specify which report generators to run (e.g., generate_html_report)')
+    args = parser.parse_args()
+
     # Directorio del paquete 'checks'
     checks_package = 'checks'
     checks = []
@@ -54,14 +59,34 @@ def main():
     # Importar todos los submódulos recursivamente
     report_modules = import_submodules(reports_package)
 
-    # Ejecutar todos los generadores de reportes
+    # Mostrar los módulos encontrados en el paquete 'reports'
+    print("Módulos encontrados en el paquete 'reports':")
+    for module_name in report_modules.keys():
+        print(module_name)
+
+    # Ejecutar todos los generadores de reportes o los especificados
     for module_name, module in report_modules.items():
         for attr_name in dir(module):
             attr = getattr(module, attr_name)
             if callable(attr) and attr_name.startswith('generate_'):
-                attr(results, output_dir='./generados')
-    print(f" Total Policies {len(checks)} \n Total executed reports: {len(report_modules)}")
-
+                report_name = attr_name
+                if args.reports:
+                    # Si se especificaron reportes, ejecutar solo esos
+                    if report_name in args.reports:
+                        print(f"Executing report: {report_name}")
+                        try:
+                            attr(results, output_dir='../generados')
+                            print(f"Report {report_name} executed successfully.")
+                        except Exception as e:
+                            print(f"Error executing report {report_name}: {e}")
+                else:
+                    # Si no se especificaron reportes, ejecutar todos
+                    print(f"Executing report: {report_name}")
+                    try:
+                        attr(results, output_dir='../generados')
+                        print(f"Report {report_name} executed successfully.")
+                    except Exception as e:
+                        print(f"Error executing report {report_name}: {e}")
 
 if __name__ == '__main__':
     main()

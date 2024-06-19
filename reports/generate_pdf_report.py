@@ -67,7 +67,7 @@ def generate_pdf_report(results, output_dir='../generados'):
     elements.append(Spacer(1, 0.5 * cm))
 
     # Add logo in the top right corner
-    logo_path = 'ivera.png'  # Ensure this path is correct and the file exists
+    logo_path = '../resources/ivera_logo.jpg'  # Ensure this path is correct and the file exists
     if os.path.exists(logo_path):
         logo = Image(logo_path, width=2 * inch, height=1 * inch)
         logo.hAlign = 'RIGHT'
