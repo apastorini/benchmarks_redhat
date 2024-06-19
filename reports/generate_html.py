@@ -15,7 +15,7 @@ def generate_html_report(results, output_dir='../generados', template_file='html
     template = env.get_template(template_file)
 
     # Get the current date
-    current_date = datetime.now().strftime('%Y-%m-%d')
+    current_date = datetime.now().strftime('%Y-%m-%d_%H:%M')
 
     # Render the template with the data
     html_content = template.render(results=df.to_dict(orient='records'), execution_date=current_date)
