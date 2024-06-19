@@ -31,7 +31,7 @@ class NumberedCanvas(canvas.Canvas):
 
 def generate_kpi_pdf_report(results: dict, output_dir='../generados'):
     # Get the current date
-    current_date = datetime.now().strftime('%Y-%m-%d_%H:%M')
+    current_date = datetime.now().strftime('%Y-%m-%d_%H_%M')
 
     # Ensure the output directory exists
     if not os.path.exists(output_dir):
